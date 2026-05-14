@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UA Content Validator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="app-title">
+                <span class="app-icon">✓</span>
+                <h1>UA Content Validator</h1>
+            </div>
+            <span class="header-subtitle">Validate content for German translation readiness</span>
+        </div>
+        <div class="header-right">
+            <div class="services-panel">
+                <span class="services-title">Services</span>
+                <div class="services-list">
+                    <div class="service-indicator" id="saptermStatus">
+                        <span class="indicator-dot"></span>
+                        <span class="indicator-label">SAPterm</span>
+                    </div>
+                    <span class="service-divider">|</span>
+                    <div class="service-indicator" id="aiStatus">
+                        <span class="indicator-dot"></span>
+                        <span class="indicator-label">AI Engine</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="input-section">
+            <div class="content-type-selector">
+                <label class="type-card selected" data-type="ui_label">
+                    <input type="radio" name="content_type" value="ui_label" checked>
+                    <span class="card-title">UI Text</span>
+                    <span class="card-desc">Labels, buttons, titles, and other UI elements</span>
+                </label>
+                <label class="type-card" data-type="text">
+                    <input type="radio" name="content_type" value="text">
+                    <span class="card-title">Text</span>
+                    <span class="card-desc">Documentation, descriptions, help content</span>
+                </label>
+            </div>
+
+            <div class="element-type-row" id="elementTypeRow">
+                <label>Element:</label>
+                <select id="elementType">
+                    <option value="app_title">App Title</option>
+                    <option value="button">Button</option>
+                    <option value="action">Action (Link/Toolbar)</option>
+                    <option value="tab">Tab</option>
+                    <option value="section_heading">Section Heading</option>
+                    <option value="field_label" selected>Field Label</option>
+                    <option value="column_header">Column Header</option>
+                    <option value="status_text">Status Text</option>
+                    <option value="message_text">Message Text</option>
+                    <option value="facet_title">Facet Title</option>
+                </select>
+            </div>
+
+            <div class="input-fields">
+                <textarea id="inputText" placeholder="Enter text to validate..." rows="5"></textarea>
+                <textarea id="inputContext" placeholder="Optional — Provide context about this text (e.g., its purpose, UI location, or business scenario) to improve validation accuracy" rows="2"></textarea>
+            </div>
+
+            <button class="validate-btn" id="validateBtn" onclick="validate()">Validate</button>
+        </section>
+
+        <!-- Results -->
+        <section class="results-section" id="resultsSection" style="display:none;">
+            <div class="result-summary" id="resultSummary"></div>
+            <div class="table-container">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th width="20%">Check</th>
+                            <th width="45%">Finding</th>
+                            <th width="35%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody"></tbody>
+                </table>
+            </div>
+            <div class="ai-section" id="aiSection" style="display:none;">
+                <div class="section-title">AI Suggestions</div>
+                <div id="aiSuggestionsContent"></div>
+            </div>
+        </section>
+
+        <div class="loading" id="loading" style="display:none;">
+            <div class="spinner"></div>
+            <p>Analyzing...</p>
+        </div>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

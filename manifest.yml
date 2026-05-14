@@ -1,0 +1,13 @@
+---
+applications:
+- name: ua-content-validator
+  memory: 512M
+  disk_quota: 1G
+  instances: 1
+  buildpacks:
+  - python_buildpack
+  command: python app_btp.py
+  env:
+    ANTHROPIC_API_KEY: "7f93e444-6147-4602-82eb-b7ae2799f64b"
+    AI_PROXY_URL: "https://api.hyperspace.tools.sap/llm-proxy/litellm/v1"
+    DEPLOYMENT: "btp"
