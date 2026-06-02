@@ -109,8 +109,20 @@ class Orchestrator:
         return result
 
     def _search_guidelines_context(self, text: str, element_type: str) -> str:
-        """Search wiki and help portal for relevant guidelines."""
+        """Search wiki and help portal for relevant guidelines and term renames."""
         context_parts = []
+
+        # Search wiki for TERM RENAMES / DEPRECATIONS
+        try:
+            rename_result = self.wiki.search(f'"{text}" renamed OR deprecated OR "replaced by"', limit=3)
+            if rename_result.get("results"):
+                for r in rename_result["results"][:2]:
+                    title = r.get("title", "")
+                    excerpt = r.get("excerpt", "")[:150]
+                    if "renam" in title.lower() or "renam" in excerpt.lower() or "deprecated" in excerpt.lower():
+                        context_parts.append(f"⚠️ TERMINOLOGY CHANGE: {title} - {excerpt}")
+        except Exception:
+            pass
 
         # Search wiki for element-specific guidelines
         try:

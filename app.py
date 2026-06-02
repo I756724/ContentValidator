@@ -21,6 +21,12 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/guide")
+def guide():
+    """User guide page."""
+    return render_template("guide.html")
+
+
 @app.route("/validate", methods=["POST"])
 def validate():
     """

@@ -69,6 +69,27 @@ header h1 { font-size: 18px; font-weight: 700; color: #FFFFFF; }
 .service-indicator.disconnected .indicator-dot { background: var(--error); }
 .service-indicator.disconnected .indicator-label { color: rgba(255,255,255,0.5); }
 
+/* Help Button */
+.help-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 12px;
+    transition: all 0.15s;
+}
+.help-btn:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.15);
+}
+
 /* Services Panel in Header */
 .services-panel {
     background: rgba(255,255,255,0.08);

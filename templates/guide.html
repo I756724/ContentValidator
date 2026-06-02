@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UA Content Validator – User Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', -apple-system, sans-serif; color: #32363A; line-height: 1.6; background: #f8f9fa; }
+        
+        /* Header */
+        .guide-header {
+            background: #0070F2;
+            color: white;
+            padding: 40px 60px;
+        }
+        .guide-header h1 { font-size: 32px; font-weight: 700; }
+        .guide-header p { font-size: 14px; opacity: 0.85; margin-top: 6px; }
+
+        /* Nav */
+        .guide-nav {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 60px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .guide-nav a {
+            color: #0070F2;
+            text-decoration: none;
+            margin-right: 24px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .guide-nav a:hover { text-decoration: underline; }
+
+        /* Content */
+        .guide-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 60px;
+        }
+
+        /* Section titles */
+        h2 {
+            color: #0070F2;
+            font-size: 24px;
+            margin-top: 48px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #0070F2;
+        }
+        h3 { font-size: 18px; margin-top: 32px; margin-bottom: 12px; }
+
+        p { margin-bottom: 16px; font-size: 15px; }
+        ul, ol { margin-bottom: 16px; padding-left: 24px; }
+        li { margin-bottom: 8px; font-size: 15px; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px;
+            font-size: 14px;
+        }
+        th {
+            background: #0070F2;
+            color: white;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        tr:nth-child(even) { background: #f0f7ff; }
+
+        /* Code blocks */
+        code {
+            background: #f4f4f4;
+            border: 1px solid #e0e0e0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+        .code-block {
+            background: #f4f4f4;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin: 12px 0 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        /* Info/Warning boxes */
+        .info-box {
+            background: #EBF5FF;
+            border-left: 4px solid #0070F2;
+            padding: 14px 18px;
+            margin: 16px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+        .warning-box {
+            background: #FFF8E1;
+            border-left: 4px solid #E78C07;
+            padding: 14px 18px;
+            margin: 16px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+        }
+
+        /* Steps */
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 28px;
+            align-items: flex-start;
+        }
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: #0070F2;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .step-content h4 { font-size: 16px; margin-bottom: 6px; }
+        .step-content p { margin-bottom: 8px; }
+
+        /* Troubleshooting cards */
+        .trouble-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 16px;
+        }
+        .trouble-card h4 { color: #BB0000; font-size: 15px; margin-bottom: 8px; }
+        .trouble-card p { font-size: 14px; margin-bottom: 0; }
+    </style>
+</head>
+<body>
+    <div class="guide-header">
+        <h1>UA Content Validator</h1>
+        <p>User Guide · Pre-Translation Validation for German Readiness</p>
+    </div>
+
+    <nav class="guide-nav">
+        <a href="#what-it-does">What It Does</a>
+        <a href="#before-you-begin">Before You Begin</a>
+        <a href="#using-the-app">Using the App</a>
+        <a href="#ui-text-validation">UI Text Validation</a>
+        <a href="#text-validation">Text Validation</a>
+        <a href="#results">Understanding Results</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+    </nav>
+
+    <div class="guide-content">
+
+        <!-- What It Does -->
+        <h2 id="what-it-does">What It Does</h2>
+        <p>UA Content Validator is a pre-translation validation tool for SAP User Assistance developers. It analyzes English content before it goes to German translation and identifies issues that would cause translator questions or errors.</p>
+        <p>The tool performs four types of analysis:</p>
+        <ul>
+            <li><strong>SAPterm Lookup</strong> – verifies terminology exists in the official SAP terminology database and shows the approved German translation</li>
+            <li><strong>Fiori Guidelines Check</strong> – validates UI text against SAP Fiori UI Text Guidelines (element-specific rules)</li>
+            <li><strong>German Translation Readiness</strong> – flags ambiguous compounds, length expansion risk, and terms with multiple German translations</li>
+            <li><strong>AI Analysis</strong> – provides grammar checking, guideline-aligned suggestions, and German complexity rating</li>
+        </ul>
+
+        <div class="info-box">
+            The tool validates against SAP Fiori UI Text Guidelines, SAP Style Guide for Technical Communication, SAPterm, SAP Wiki, and Help Portal. AI suggestions always reference the specific guideline they are based on.
+        </div>
+
+        <!-- Before You Begin -->
+        <h2 id="before-you-begin">Before You Begin</h2>
+        <p>The tool is available at:</p>
+        <div class="code-block">https://ua-content-validator.cfapps.eu12.hana.ondemand.com</div>
+        <p>No installation required. Open the URL in any browser. The tool connects to SAPterm and AI services automatically.</p>
+
+        <h3>Supported Content Types</h3>
+        <table>
+            <tr><th>Mode</th><th>What It Validates</th></tr>
+            <tr><td><strong>UI Text</strong></td><td>App titles, buttons, actions, tabs, field labels, column headers, status text, messages, facet titles</td></tr>
+            <tr><td><strong>Text</strong></td><td>Documentation paragraphs, help content, descriptions, release notes</td></tr>
+        </table>
+
+        <!-- Using the App -->
+        <h2 id="using-the-app">Using the App</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Select Content Type</h4>
+                <p>Choose <strong>UI Text</strong> for any short text that appears in the SAP Fiori interface, or <strong>Text</strong> for documentation and longer content.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Select Element Type (UI Text only)</h4>
+                <p>Choose the specific UI element from the dropdown. Each element type has different validation rules from the SAP Fiori UI Text Guidelines.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Enter Your Text</h4>
+                <p>Paste or type the English text you want to validate in the main input field.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Add Context (Optional)</h4>
+                <p>Provide additional information about the text — its purpose, UI location, or business scenario. This improves AI suggestion accuracy.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Click Validate</h4>
+                <p>Results appear in a table below with findings and recommended actions.</p>
+            </div>
+        </div>
+
+        <!-- UI Text Validation -->
+        <h2 id="ui-text-validation">UI Text Validation</h2>
+        <p>When validating UI text, the tool applies element-specific rules from the SAP Fiori UI Text Guidelines:</p>
+
+        <table>
+            <tr><th>Element Type</th><th>Key Rules Applied</th></tr>
+            <tr><td><strong>App Title</strong></td><td>Transactional apps: start with verb + plural object. Analytical: noun-based. No jargon.</td></tr>
+            <tr><td><strong>Button</strong></td><td>Imperative verb form. Max 3 words. No articles. No "Click/Press".</td></tr>
+            <tr><td><strong>Action</strong></td><td>Verb + object. Title case. Can be longer than buttons (4–5 words).</td></tr>
+            <tr><td><strong>Tab</strong></td><td>Title case. Noun phrase. 1–3 words. Count format: "Items (4)".</td></tr>
+            <tr><td><strong>Section Heading</strong></td><td>Title case. Noun phrase. Don't overlap with parent section.</td></tr>
+            <tr><td><strong>Field Label</strong></td><td>Title case. Noun phrase. No verbs, no articles. Colon is automatic.</td></tr>
+            <tr><td><strong>Column Header</strong></td><td>Title case. Singular if one entry per row. Slash with spaces for multiple values.</td></tr>
+            <tr><td><strong>Status Text</strong></td><td>Sentence case if long, title case if short. No ending period.</td></tr>
+            <tr><td><strong>Message Text</strong></td><td>No "successfully". No "(s)" for plural. Tell user what to do. No semicolons.</td></tr>
+            <tr><td><strong>Facet Title</strong></td><td>Title case. Noun phrase. Can include count in parentheses.</td></tr>
+        </table>
+
+        <div class="info-box">
+            Source: <a href="https://www.sap.com/design-system/fiori-design-web/v1-145/foundations/writing-and-wording/ux-writing/ui-text-guidelines-for-sap-fiori" style="color:#0070F2">SAP Fiori UI Text Guidelines for SAP Fiori Apps</a>
+        </div>
+
+        <!-- Text Validation -->
+        <h2 id="text-validation">Text Validation</h2>
+        <p>When validating general text (documentation, descriptions), the tool checks:</p>
+        <ul>
+            <li><strong>Compound nouns</strong> – flags chains of 3+ consecutive nouns (German reverses compound order)</li>
+            <li><strong>Passive voice</strong> – German passive is structurally more complex</li>
+            <li><strong>Vague pronouns</strong> – "This", "It", "That" at sentence start need clear antecedent (German pronouns have gender)</li>
+            <li><strong>Sentence length</strong> – sentences over 25 words expand significantly in German</li>
+            <li><strong>Terminology</strong> – business terms are checked against SAPterm for approved translations</li>
+            <li><strong>Grammar</strong> – AI checks for subject-verb agreement, plural consistency, and ambiguity</li>
+        </ul>
+
+        <!-- Understanding Results -->
+        <h2 id="results">Understanding Results</h2>
+        <h3>Results Table</h3>
+        <table>
+            <tr><th>Column</th><th>Description</th></tr>
+            <tr><td><strong>Check</strong></td><td>The validation category (SAPterm, Fiori Guidelines, German Translation, Grammar & Style, Suggested Alternatives)</td></tr>
+            <tr><td><strong>Finding</strong></td><td>What was identified — the specific issue or result</td></tr>
+            <tr><td><strong>Action</strong></td><td>Recommended next step or correction</td></tr>
+        </table>
+
+        <h3>Summary Bar</h3>
+        <p>The dark bar above the results shows:</p>
+        <ul>
+            <li><strong>Finding count</strong> – total number of issues identified</li>
+            <li><strong>DE Translation Complexity</strong> – Low, Medium, or High (AI-assessed difficulty for German translation)</li>
+        </ul>
+
+        <h3>Validation Sources</h3>
+        <table>
+            <tr><th>Source</th><th>What It Provides</th></tr>
+            <tr><td><strong>SAPterm</strong></td><td>Official terminology verification, German translations, component context</td></tr>
+            <tr><td><strong>SAP Fiori UI Text Guidelines</strong></td><td>Element-specific formatting and wording rules</td></tr>
+            <tr><td><strong>SAP Wiki</strong></td><td>Internal guidelines, term renames, deprecated terminology</td></tr>
+            <tr><td><strong>Help Portal</strong></td><td>Term usage in published documentation</td></tr>
+            <tr><td><strong>AI Engine</strong></td><td>Grammar, German complexity assessment, improvement suggestions</td></tr>
+            <tr><td><strong>NLP (spaCy)</strong></td><td>Compound noun detection, passive voice, pronoun analysis</td></tr>
+        </table>
+
+        <div class="warning-box">
+            AI suggestions are based on guidelines but should always be reviewed. The AI may not have full domain context for your specific product area.
+        </div>
+
+        <!-- Troubleshooting -->
+        <h2 id="troubleshooting">Troubleshooting</h2>
+
+        <div class="trouble-card">
+            <h4>"SAPterm: Service unavailable"</h4>
+            <p>The SAPterm authentication cookie has expired. Re-authenticate using <code>sap-auth-mcp</code> with the SAPterm entry URL. Cookies typically last 24 hours.</p>
+        </div>
+
+        <div class="trouble-card">
+            <h4>AI returns "Unknown" complexity</h4>
+            <p>The AI service did not respond. Check that the LLM proxy is running (local) or that the AI Core service binding is active (BTP). Try validating again.</p>
+        </div>
+
+        <div class="trouble-card">
+            <h4>No suggestions appear</h4>
+            <p>If the AI section is empty, the AI service may be temporarily unavailable or the text is too short for meaningful analysis. Ensure at least 2–3 words are entered.</p>
+        </div>
+
+        <div class="trouble-card">
+            <h4>SAPterm shows "not found" for a known term</h4>
+            <p>SAPterm uses exact matching by default. Check spelling and capitalization. The tool also searches for similar terms using "starts with" matching.</p>
+        </div>
+
+        <div class="trouble-card">
+            <h4>Validation is slow</h4>
+            <p>The tool queries multiple services (SAPterm, Wiki, Help Portal, AI). Response time depends on network connectivity and AI service load. Typical response: 5–15 seconds.</p>
+        </div>
+
+        <div class="trouble-card">
+            <h4>Wiki search finds no results</h4>
+            <p>Wiki authentication may have expired. Re-authenticate using <code>sap-auth-mcp</code> with the wiki entry URL. The tool will still function without wiki — AI and SAPterm results remain available.</p>
+        </div>
+
+        <div class="info-box">
+            For issues not covered here, contact the UA Content Validator team or raise a ticket in the project repository.
+        </div>
+
+    </div>
+</body>
+</html>
