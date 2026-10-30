@@ -27,12 +27,26 @@ class SAPTermService:
 
     def _get_cookie_data(self) -> dict:
         """Get cookie data from env var (BTP) or local file (dev).
-        
+
         Priority:
-        1. SAPTERM_COOKIES env var (JSON string) - for BTP deployment
-        2. Local cookie file - for local development
+        1. SAPTERM_COOKIE env var (plain string) - paste from browser DevTools
+        2. SAPTERM_COOKIES env var (JSON string) - for BTP deployment
+        3. Local cookie file - for local development
         """
-        # Try environment variable first (BTP deployment)
+        # 1. Plain string from .env (simplest - paste directly from DevTools)
+        from config import SAPTERM_COOKIE as _COOKIE_STR
+        if _COOKIE_STR:
+            # Convert plain string into the list-of-dicts format the rest of the service expects
+            pairs = [p.strip() for p in _COOKIE_STR.split(";") if "=" in p]
+            cookies = []
+            for pair in pairs:
+                name, _, value = pair.partition("=")
+                if name.strip():
+                    cookies.append({"name": name.strip(), "value": value.strip()})
+            if cookies:
+                return {"cookies": cookies, "timestamp": 0}  # timestamp=0 skips age check
+
+        # 2. JSON string from env var (BTP deployment)
         env_cookies = os.environ.get("SAPTERM_COOKIES", "")
         if env_cookies:
             try:
@@ -40,8 +54,8 @@ class SAPTermService:
             except json.JSONDecodeError:
                 print("Error parsing SAPTERM_COOKIES env var")
                 return {}
-        
-        # Fall back to local file
+
+        # 3. Fall back to local file
         try:
             if not os.path.exists(self.cookie_file):
                 return {}
@@ -82,14 +96,12 @@ class SAPTermService:
             data = self._get_cookie_data()
             if not data:
                 return True
-            
+
             timestamp = data.get("timestamp", 0)
             if timestamp == 0:
-                # No timestamp means cookies were set manually (e.g. env var) - assume valid
-                if os.environ.get("SAPTERM_COOKIES"):
-                    return False
-                return True
-            
+                # timestamp=0 means cookies came from env var — always treat as fresh
+                return False
+
             age_seconds = (time.time() * 1000 - timestamp) / 1000
             return age_seconds > MAX_COOKIE_AGE_SECONDS
         except Exception:

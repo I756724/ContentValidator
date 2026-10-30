@@ -68,6 +68,8 @@ header h1 { font-size: 18px; font-weight: 700; color: #FFFFFF; }
 .service-indicator.connected .indicator-label { color: rgba(255,255,255,0.9); }
 .service-indicator.disconnected .indicator-dot { background: var(--error); }
 .service-indicator.disconnected .indicator-label { color: rgba(255,255,255,0.5); }
+.service-indicator.expired .indicator-dot { background: var(--warning); box-shadow: 0 0 4px var(--warning); }
+.service-indicator.expired .indicator-label { color: rgba(255,255,255,0.7); }
 
 /* Help Button */
 .help-btn {
@@ -344,3 +346,220 @@ textarea::placeholder { color: var(--text-secondary); }
     header { padding: 12px 16px; }
     main { padding: 0 12px; }
 }
+
+/* Language selector label */
+.lang-label {
+    margin-left: 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Textarea wrapper (for char counter) */
+.textarea-wrap { position: relative; display: flex; flex-direction: column; gap: 4px; }
+
+/* Character counter row */
+.char-counter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2px;
+}
+.char-count {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+}
+.char-count-warn { color: var(--warning); font-weight: 600; }
+.char-count-over { color: var(--error); font-weight: 700; }
+.char-limit-hint {
+    font-size: 11px;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* Copy-to-clipboard button on suggestions */
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px; height: 20px;
+    margin-left: 6px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    vertical-align: middle;
+    transition: all 0.15s;
+    padding: 0;
+}
+.copy-btn:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-bg); }
+.copy-btn-done { border-color: var(--success) !important; color: var(--success) !important; }
+
+/* Draft SAPterm Entry button (in table Action column) */
+.draft-entry-btn {
+    margin-top: 8px;
+    padding: 6px 14px;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: inline-block;
+}
+.draft-entry-btn:hover { background: #0060D0; }
+
+/* SAPterm Draft Panel */
+.draft-panel-section {
+    background: var(--bg-panel);
+    border-radius: var(--radius);
+    border: 1px solid var(--blue);
+    margin-top: 16px;
+    overflow: hidden;
+}
+.draft-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--blue-bg);
+    border-bottom: 1px solid rgba(0,112,242,0.2);
+}
+.draft-panel-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.3px;
+}
+.draft-close-btn {
+    width: 24px; height: 24px;
+    background: transparent;
+    border: 1px solid rgba(0,112,242,0.3);
+    border-radius: 50%;
+    font-size: 16px;
+    color: var(--blue);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+    padding: 0;
+    transition: all 0.15s;
+}
+.draft-close-btn:hover { background: var(--blue); color: white; }
+
+.draft-confidence {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px 0;
+    flex-wrap: wrap;
+}
+.draft-disclaimer-inline {
+    font-size: 11px;
+    color: var(--warning);
+    font-style: italic;
+}
+
+.draft-warnings {
+    margin: 10px 20px 0;
+    padding: 8px 12px;
+    background: rgba(223,110,12,0.08);
+    border: 1px solid rgba(223,110,12,0.25);
+    border-radius: 5px;
+    font-size: 12px;
+    color: var(--warning);
+}
+.draft-warnings ul { margin: 4px 0 0 16px; padding: 0; }
+.draft-warnings li { margin-bottom: 2px; }
+
+.draft-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+}
+.draft-table td {
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+.draft-table tr:last-child td { border-bottom: none; }
+.draft-field-label {
+    width: 22%;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+.draft-field-value {
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.draft-panel-actions {
+    display: flex;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-input);
+}
+.draft-action-btn {
+    padding: 8px 18px;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.draft-action-btn:hover { background: #0060D0; }
+.draft-action-btn-secondary {
+    background: transparent;
+    color: var(--blue);
+    border: 1.5px solid var(--blue);
+}
+.draft-action-btn-secondary:hover { background: var(--blue-bg); }
+
+.draft-loading {
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+.draft-error {
+    padding: 16px 20px;
+    color: var(--error);
+    font-size: 13px;
+}
+
+/* Export bar — sits below the results table */
+.export-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 10px 0 4px;
+}
+.export-btn {
+    padding: 7px 16px;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.export-btn:hover { background: #0060D0; }
+.export-btn-secondary {
+    background: transparent;
+    color: var(--blue);
+    border: 1.5px solid var(--blue);
+}
+.export-btn-secondary:hover { background: var(--blue-bg); }

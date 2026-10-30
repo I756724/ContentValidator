@@ -13,7 +13,7 @@
                 <span class="app-icon">✓</span>
                 <h1>UA Content Validator</h1>
             </div>
-            <span class="header-subtitle">Validate content for German translation readiness</span>
+            <span class="header-subtitle">SAP writing standards check — guidelines, terminology, style, and translation readiness</span>
         </div>
         <div class="header-right">
             <div class="services-panel">
@@ -22,6 +22,11 @@
                     <div class="service-indicator" id="saptermStatus">
                         <span class="indicator-dot"></span>
                         <span class="indicator-label">SAPterm</span>
+                    </div>
+                    <span class="service-divider">|</span>
+                    <div class="service-indicator" id="wikiStatus">
+                        <span class="indicator-dot"></span>
+                        <span class="indicator-label">Wiki</span>
                     </div>
                     <span class="service-divider">|</span>
                     <div class="service-indicator" id="aiStatus">
@@ -63,10 +68,28 @@
                     <option value="message_text">Message Text</option>
                     <option value="facet_title">Facet Title</option>
                 </select>
+                <label class="lang-label">Translate to:</label>
+                <select id="targetLanguage">
+                    <option value="de-DE" selected>German (DE)</option>
+                    <option value="fr-FR">French (FR)</option>
+                    <option value="es-ES">Spanish (ES)</option>
+                    <option value="it-IT">Italian (IT)</option>
+                    <option value="nl-NL">Dutch (NL)</option>
+                    <option value="pt-BR">Portuguese BR (PT)</option>
+                    <option value="ja-JP">Japanese (JA)</option>
+                    <option value="zh-CN">Chinese Simplified (ZH)</option>
+                    <option value="ko-KR">Korean (KO)</option>
+                </select>
             </div>
 
             <div class="input-fields">
-                <textarea id="inputText" placeholder="Enter text to validate..." rows="5"></textarea>
+                <div class="textarea-wrap">
+                    <textarea id="inputText" placeholder="Enter text to validate..." rows="5" maxlength="3000"></textarea>
+                    <div class="char-counter-row">
+                        <span id="charCount" class="char-count">0 chars</span>
+                        <span class="char-limit-hint" id="charLimitHint">UI Text: max 300 · Ctrl+Enter to validate</span>
+                    </div>
+                </div>
                 <textarea id="inputContext" placeholder="Optional — Provide context about this text (e.g., its purpose, UI location, or business scenario) to improve validation accuracy" rows="2"></textarea>
             </div>
 
@@ -88,9 +111,26 @@
                     <tbody id="resultsTableBody"></tbody>
                 </table>
             </div>
+            <div class="export-bar" id="exportBar" style="display:none;">
+                <button class="export-btn" id="copyResultsBtn" onclick="copyResults()">Copy Findings</button>
+                <button class="export-btn export-btn-secondary" onclick="downloadReport()">Download Report</button>
+            </div>
             <div class="ai-section" id="aiSection" style="display:none;">
                 <div class="section-title">AI Suggestions</div>
                 <div id="aiSuggestionsContent"></div>
+            </div>
+        </section>
+
+        <!-- SAPterm Draft Entry Panel -->
+        <section class="draft-panel-section" id="saptermDraftSection" style="display:none;">
+            <div class="draft-panel-header">
+                <span class="draft-panel-title">SAPterm Draft Entry</span>
+                <button class="draft-close-btn" onclick="closeDraftPanel()" title="Close">×</button>
+            </div>
+            <div id="draftContent"></div>
+            <div class="draft-panel-actions" id="draftActions">
+                <button class="draft-action-btn" id="copyDraftBtn" onclick="copyDraftText()">Copy as SAPterm Text</button>
+                <button class="draft-action-btn draft-action-btn-secondary" onclick="downloadDraftText()">Download .txt</button>
             </div>
         </section>
 
